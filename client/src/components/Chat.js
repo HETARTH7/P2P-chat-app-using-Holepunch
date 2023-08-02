@@ -9,22 +9,35 @@ const Chat = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/messages", { serverID })
-      .then((res) => console.log(res.data))
+      .get(`http://localhost:5000/messages/${serverID}`)
+      .then((res) => setChats(res.data))
       .catch((err) => console.log(err));
-  }, []);
+  }, [serverID]);
 
   const handleChange = (e) => {
     setMessage(e.target.value);
   };
   const sendMessage = () => {
     axios.post("http://localhost:5000/send", { serverID, message });
+    window.location.href = `/${serverID}`;
   };
   return (
-    <div className="container">
+    <div className="container text-center">
       <h1>Chat</h1>
-      <input onChange={handleChange} />
-      <button onClick={sendMessage}>Send</button>
+
+      <input className="form-control m-4" onChange={handleChange} />
+      <button className="btn btn-success m-4" onClick={sendMessage}>
+        Send
+      </button>
+      <div className="card">
+        {chats.map((chat, index) => {
+          return (
+            <div className="card-title" key={index}>
+              <h5>{chat}</h5>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

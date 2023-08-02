@@ -62,8 +62,8 @@ app.post("/send", async (req, res) => {
   res.status(200).json("Message sent");
 });
 
-app.get("/messages", async (req, res) => {
-  const { serverID } = req.body;
+app.get("/messages/:serverID", async (req, res) => {
+  const { serverID } = req.params;
   const filePath = `./${serverID}/data`;
 
   try {
